@@ -3,24 +3,39 @@
     <!-- 顶部导航栏 -->
     <nav class="navbar navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="index.html">conduit</a>
+        <!-- <a class="navbar-brand" href="index.html">conduit</a> -->
+        <nuxt-link class="navbar-brand" to="/">Home</nuxt-link>
         <ul class="nav navbar-nav pull-xs-right">
           <li class="nav-item">
             <!-- Add "active" class when you're on that page" -->
-            <a class="nav-link active" href="">Home</a>
+            <!-- <a class="nav-link active" href="">Home</a> -->
+            <nuxt-link class="nav-link" to="/" exact>Home</nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <!-- <a class="nav-link" href="">
               <i class="ion-compose"></i>&nbsp;New Post
-            </a>
+            </a> -->
+            <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;New Post</nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <!-- <a class="nav-link" href="">
               <i class="ion-gear-a"></i>&nbsp;Settings
-            </a>
+            </a> -->
+            <nuxt-link class="nav-link" to="settings"><i class="ion-gear-a"></i>&nbsp;Settings</nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Sign up</a>
+            <!-- <a class="nav-link" href="">Sign up</a> -->
+            <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <!-- <a class="nav-link" href="">Sign up</a> -->
+            <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link class="nav-link" to="/profile/GKNick">
+              <img class="user-pic" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201903%2F03%2F20190303185013_fzmjo.thumb.700_0.jpg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1622211886&t=21ba213b4401e11151284d6aa937b903" alt="" >
+              GKNick
+            </nuxt-link>
           </li>
         </ul>
       </div>
