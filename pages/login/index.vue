@@ -2,7 +2,7 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
-        <h1 class="text-xs-center">{{name}}</h1>
+        <h1 class="text-xs-center">{{ name }}</h1>
         <p class="text-xs-center">
           <!-- <a href="">Have an account?</a> -->
           <nuxt-link v-if="isLogin" to="/register">Need an accout?</nuxt-link>
@@ -10,32 +10,44 @@
         </p>
 
         <ul class="error-messages">
-          <li>That email is already taken</li>
+          <template v-for="(messages, field) in errors">
+              <li v-for="(message, index) in messages" :key="message-index">{{ field }} {{ message }}</li>
+          </template>
+          <!-- <li>That email is already taken</li> -->
         </ul>
 
-        <form>
+        <form @submit.prevent="onSubmit">
           <fieldset class="form-group" v-if="!isLogin">
             <input
+              v-model="user.username"
               class="form-control form-control-lg"
               type="text"
               placeholder="Your Name"
+              required
             />
           </fieldset>
           <fieldset class="form-group">
             <input
+              v-model="user.email"
               class="form-control form-control-lg"
-              type="text"
+              type="email"
               placeholder="Email"
+              required
             />
           </fieldset>
           <fieldset class="form-group">
             <input
+              v-model="user.password"
               class="form-control form-control-lg"
               type="password"
               placeholder="Password"
+              required
+              minlength="8"
             />
           </fieldset>
-          <button class="btn btn-lg btn-primary pull-xs-right">{{name}}</button>
+          <button class="btn btn-lg btn-primary pull-xs-right">
+            {{ name }}
+          </button>
         </form>
       </div>
     </div>
@@ -43,6 +55,7 @@
 </template>
 
 <script>
+import { login, register } from "@/api/user"
 export default {
   name: "LoginIndex",
   computed: {
@@ -50,9 +63,37 @@ export default {
       return this.$route.name === "login";
     },
     name() {
-        return this.isLogin ? 'Sign in' : 'Sign up'
-    }
+      return this.isLogin ? "Sign in" : "Sign up";
+    },
   },
+  data() {
+    return {
+      user: {
+        email: "",
+        username: "",
+        password: ""
+      },
+      errors: {} // 错误信息
+    };
+  },
+  methods: {
+    async onSubmit () {
+        try {
+            const func = this.isLogin ? login : register
+            // 提交表单请求登录
+            const { data } = await func({ user: this.user })
+            // console.log(data)
+            // TODO: 保存用户的登录状态
+            this.$store.commit('setUser', data.user)
+            // 跳转到首页
+            this.$router.push("/")
+        } catch (error) {
+            // console.log('请求失败', error)
+            console.dir(error)
+            this.errors = error.response.data.errors
+        }
+    }
+  }
 };
 </script>
 

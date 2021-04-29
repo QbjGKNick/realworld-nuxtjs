@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
+            <img src="https://avatars.githubusercontent.com/u/18567408?s=60&v=4" class="user-img" />
             <h4>Eric Simons</h4>
             <p>
               Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda
