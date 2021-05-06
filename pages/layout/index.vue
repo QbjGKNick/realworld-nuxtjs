@@ -11,32 +11,36 @@
             <!-- <a class="nav-link active" href="">Home</a> -->
             <nuxt-link class="nav-link" to="/" exact>Home</nuxt-link>
           </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="">
-              <i class="ion-compose"></i>&nbsp;New Post
-            </a> -->
-            <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;New Post</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="">
-              <i class="ion-gear-a"></i>&nbsp;Settings
-            </a> -->
-            <nuxt-link class="nav-link" to="settings"><i class="ion-gear-a"></i>&nbsp;Settings</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="">Sign up</a> -->
-            <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="">Sign up</a> -->
-            <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/profile/GKNick">
-              <img class="user-pic" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201903%2F03%2F20190303185013_fzmjo.thumb.700_0.jpg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1622211886&t=21ba213b4401e11151284d6aa937b903" alt="" >
-              GKNick
-            </nuxt-link>
-          </li>
+          <template v-if="user">
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="">
+                <i class="ion-compose"></i>&nbsp;New Post
+              </a> -->
+              <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;New Post</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="">
+                <i class="ion-gear-a"></i>&nbsp;Settings
+              </a> -->
+              <nuxt-link class="nav-link" to="settings"><i class="ion-gear-a"></i>&nbsp;Settings</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/profile/GKNick">
+                <img class="user-pic" :src="user.image" alt="" >
+                {{ user.username }}
+              </nuxt-link>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="">Sign up</a> -->
+              <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="">Sign up</a> -->
+              <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
+            </li>
+          </template>
         </ul>
       </div>
     </nav>
@@ -60,8 +64,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 export default {
-    name: 'LayoutIndex'
+    name: 'LayoutIndex',
+    computed: {
+      ...mapState(['user'])
+    }
 };
 </script>
 
