@@ -62,6 +62,25 @@
           </nuxt-link>
         </div>
 
+        <!-- 分页列表 -->
+        <nav>
+          <ul class="pagination">
+            <li class="page-item"
+              :class="{
+                active: item === page
+              }"
+              v-for="item in totalPage"
+              :key="item"
+            >
+              <nuxt-link :to="{
+                name: 'home',
+                query: {
+                  page: item
+                }
+              }" class="page-link">{{item}}</nuxt-link>
+            </li>
+          </ul>
+        </nav>
       </div>
 
       <div class="col-md-3">
@@ -91,11 +110,24 @@
 import { getArticles } from "@/api/article"
 export default {
     name: 'HomeIndex',
-    async asyncData() {
-      const { data } = await getArticles()
+    async asyncData({ query }) {
+      const page = Number.parseInt(query.page || 1)
+      const limit = 20
+      const { data } = await getArticles({
+        limit,
+        offset: (page - 1) * limit
+      })
       return {
         articles: data.articles,
-        articlesCount: data.articlesCount
+        articlesCount: data.articlesCount,
+        limit,
+        page
+      }
+    },
+    watchQuery: ['page'],
+    computed: {
+      totalPage() {
+        return Math.ceil(this.articlesCount / this.limit)
       }
     }
 }
