@@ -16,14 +16,14 @@
                 <nuxt-link
                   class="nav-link"
                   :class="{
-                    active: tab === 'your_feed',
+                    active: tab === 'your_feed'
                   }"
                   exact
                   :to="{
                     name: 'home',
                     query: {
-                      tab: 'your_feed',
-                    },
+                      tab: 'your_feed'
+                    }
                   }"
                   >Your Feed</nuxt-link
                 >
@@ -32,14 +32,14 @@
                 <nuxt-link
                   class="nav-link"
                   :class="{
-                    active: tab === 'global_feed',
+                    active: tab === 'global_feed'
                   }"
                   exact
                   :to="{
                     name: 'home',
                     query: {
-                      tab: 'global_feed',
-                    },
+                      tab: 'global_feed'
+                    }
                   }"
                   >Global Feed</nuxt-link
                 >
@@ -73,8 +73,8 @@
                 :to="{
                   name: 'profile',
                   params: {
-                    username: article.author.username,
-                  },
+                    username: article.author.username
+                  }
                 }"
               >
                 <img :src="article.author.image" alt="" />
@@ -85,8 +85,8 @@
                   :to="{
                     name: 'profile',
                     params: {
-                      username: article.author.username,
-                    },
+                      username: article.author.username
+                    }
                   }"
                 >
                   {{ article.author.username }}
@@ -96,7 +96,7 @@
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{
-                  active: article.favorited,
+                  active: article.favorited
                 }"
               >
                 <i class="ion-heart"></i> {{ article.favoritesCount }}
@@ -107,8 +107,8 @@
               :to="{
                 name: 'article',
                 params: {
-                  slug: article.slug,
-                },
+                  slug: article.slug
+                }
               }"
             >
               <h1>{{ article.title }}</h1>
@@ -123,7 +123,7 @@
               <li
                 class="page-item"
                 :class="{
-                  active: item === page,
+                  active: item === page
                 }"
                 v-for="item in totalPage"
                 :key="item"
@@ -134,7 +134,8 @@
                     query: {
                       page: item,
                       tag: $route.query.tag,
-                    },
+                      tab: tab
+                    }
                   }"
                   class="page-link"
                   >{{ item }}</nuxt-link
@@ -155,7 +156,7 @@
                   query: {
                     tab: 'tag',
                     tag: item
-                  },
+                  }
                 }"
                 class="tag-pill tag-default"
                 v-for="item in tags"
@@ -171,22 +172,25 @@
 </template>
 
 <script>
-import { getArticles } from "@/api/article"
-import { getTags } from "@/api/tag"
-import { mapState } from "vuex"
+import { getArticles, getFeedArticles } from '@/api/article'
+import { getTags } from '@/api/tag'
+import { mapState } from 'vuex'
 export default {
-  name: "HomeIndex",
-  async asyncData({ query }) {
+  name: 'HomeIndex',
+  async asyncData({ query, store }) {
     const page = Number.parseInt(query.page || 1)
     const limit = 20
-    const { tag, tab } = query
+    const { tag } = query
+    const tab = query.tab || 'global_feed'
+    const loadArticles =
+      store.state.user && tab === 'your_feed' ? getFeedArticles : getArticles
     const [articleRes, tagRes] = await Promise.all([
-      getArticles({
+      loadArticles({
         limit,
         offset: (page - 1) * limit,
-        tag,
+        tag
       }),
-      getTags(),
+      getTags()
     ])
     const { articles, articlesCount } = articleRes.data
     const { tags } = tagRes.data
@@ -197,16 +201,16 @@ export default {
       limit,
       page,
       tag,
-      tab: tab || 'global_feed'
+      tab
     }
   },
-  watchQuery: ["page", "tag", "tab"],
+  watchQuery: ['page', 'tag', 'tab'],
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user']),
     totalPage() {
       return Math.ceil(this.articlesCount / this.limit)
-    },
-  },
+    }
+  }
 }
 </script>
 
