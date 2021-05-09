@@ -22,3 +22,19 @@ export const getFeedArticles = (params) => {
     params
   })
 }
+
+// 添加点赞
+export const addFavorite = slug => {
+  return request({
+    method: 'post',
+    url: `/api/articles/${slug}/favorite`
+  })
+}
+
+// 取消点赞
+export const deleteFavorite = slug => {
+  return request({
+    method: 'delete',
+    url: `/api/articles/${slug}/favorite`
+  })
+}
