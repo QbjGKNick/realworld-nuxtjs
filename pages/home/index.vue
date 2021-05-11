@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit</h1>
+        <h1 class="logo-font">nuxtjs learning</h1>
         <p>A place to share your knowledge.</p>
       </div>
     </div>
@@ -91,7 +91,9 @@
                 >
                   {{ article.author.username }}
                 </nuxt-link>
-                <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
+                <span class="date">{{
+                  article.createdAt | date('MMM DD, YYYY')
+                }}</span>
               </div>
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
@@ -174,7 +176,12 @@
 </template>
 
 <script>
-import { getArticles, getFeedArticles, addFavorite, deleteFavorite } from '@/api/article'
+import {
+  getArticles,
+  getFeedArticles,
+  addFavorite,
+  deleteFavorite
+} from '@/api/article'
 import { getTags } from '@/api/tag'
 import { mapState } from 'vuex'
 export default {
@@ -197,7 +204,7 @@ export default {
     const { articles, articlesCount } = articleRes.data
     const { tags } = tagRes.data
 
-    articles.forEach(article => {
+    articles.forEach((article) => {
       article.favoriteDisabled = false
     })
 
